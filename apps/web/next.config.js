@@ -43,8 +43,24 @@ if (process.env.VERCEL_URL && !process.env.NEXT_PUBLIC_WEBAPP_URL) {
 if (!process.env.NEXTAUTH_URL && process.env.NEXT_PUBLIC_WEBAPP_URL) {
   process.env.NEXTAUTH_URL = `${process.env.NEXT_PUBLIC_WEBAPP_URL}/api/auth`;
 }
+if (!process.env.NEXT_PUBLIC_WEBAPP_URL) {
+  console.warn(
+    "\x1b[33mwarn",
+    "\x1b[0m",
+    "NEXT_PUBLIC_WEBAPP_URL is not set. Required at runtime, using placeholder for build."
+  );
+  process.env.NEXT_PUBLIC_WEBAPP_URL = "http://localhost:3000";
+}
 if (!process.env.NEXT_PUBLIC_WEBSITE_URL) {
   process.env.NEXT_PUBLIC_WEBSITE_URL = process.env.NEXT_PUBLIC_WEBAPP_URL;
+}
+if (!process.env.NEXT_PUBLIC_API_V2_URL) {
+  console.warn(
+    "\x1b[33mwarn",
+    "\x1b[0m",
+    "NEXT_PUBLIC_API_V2_URL is not set. Required at runtime, using placeholder for build."
+  );
+  process.env.NEXT_PUBLIC_API_V2_URL = "http://localhost:5555";
 }
 if (
   process.env.CSP_POLICY === "strict" &&
@@ -73,7 +89,7 @@ if (!process.env.NEXTAUTH_URL) {
 }
 
 if (!process.env.NEXT_PUBLIC_API_V2_URL) {
-  console.error("Please set NEXT_PUBLIC_API_V2_URL");
+  console.error("NEXT_PUBLIC_API_V2_URL is still not set after fallback.");
 }
 
 const getHttpsUrl = (url) => {
