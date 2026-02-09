@@ -384,10 +384,13 @@ const nextConfig = {
         : []),
     ];
 
+    const apiV2Url = process.env.NEXT_PUBLIC_API_V2_URL || "http://localhost:5555";
+    const webappUrl = process.env.NEXT_PUBLIC_WEBAPP_URL || "http://localhost:3000";
+
     let afterFiles = [
       {
         source: "/api/v2/:path*",
-        destination: `${process.env.NEXT_PUBLIC_API_V2_URL}/:path*`,
+        destination: `${apiV2Url}/:path*`,
       },
       {
         source: "/org/:slug",
@@ -403,7 +406,7 @@ const nextConfig = {
       },
       {
         source: "/icons/sprite.svg",
-        destination: `${process.env.NEXT_PUBLIC_WEBAPP_URL}/icons/sprite.svg`,
+        destination: `${webappUrl}/icons/sprite.svg`,
       },
 
       // When updating this also update pagesAndRewritePaths.js
