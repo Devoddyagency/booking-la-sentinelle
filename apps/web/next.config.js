@@ -13,8 +13,22 @@ const {
   orgUserTypeEmbedRoutePath,
 } = require("./pagesAndRewritePaths");
 
-if (!process.env.NEXTAUTH_SECRET) throw new Error("Please set NEXTAUTH_SECRET");
-if (!process.env.CALENDSO_ENCRYPTION_KEY) throw new Error("Please set CALENDSO_ENCRYPTION_KEY");
+if (!process.env.NEXTAUTH_SECRET) {
+  console.warn(
+    "\x1b[33mwarn",
+    "\x1b[0m",
+    "NEXTAUTH_SECRET is not set. Required at runtime, skipping for build."
+  );
+  process.env.NEXTAUTH_SECRET = "build-time-placeholder";
+}
+if (!process.env.CALENDSO_ENCRYPTION_KEY) {
+  console.warn(
+    "\x1b[33mwarn",
+    "\x1b[0m",
+    "CALENDSO_ENCRYPTION_KEY is not set. Required at runtime, skipping for build."
+  );
+  process.env.CALENDSO_ENCRYPTION_KEY = "build-time-placeholder-key-32len!";
+}
 const isOrganizationsEnabled =
   process.env.ORGANIZATIONS_ENABLED === "1" || process.env.ORGANIZATIONS_ENABLED === "true";
 // To be able to use the version in the app without having to import package.json
@@ -49,7 +63,14 @@ if (!process.env.EMAIL_FROM) {
   );
 }
 
-if (!process.env.NEXTAUTH_URL) throw new Error("Please set NEXTAUTH_URL");
+if (!process.env.NEXTAUTH_URL) {
+  console.warn(
+    "\x1b[33mwarn",
+    "\x1b[0m",
+    "NEXTAUTH_URL is not set. Required at runtime, skipping for build."
+  );
+  process.env.NEXTAUTH_URL = "http://localhost:3000/api/auth";
+}
 
 if (!process.env.NEXT_PUBLIC_API_V2_URL) {
   console.error("Please set NEXT_PUBLIC_API_V2_URL");
