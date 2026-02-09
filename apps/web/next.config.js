@@ -384,8 +384,11 @@ const nextConfig = {
         : []),
     ];
 
-    const apiV2Url = process.env.NEXT_PUBLIC_API_V2_URL || "http://localhost:5555";
-    const webappUrl = process.env.NEXT_PUBLIC_WEBAPP_URL || "http://localhost:3000";
+    // Handle cases where env vars might be undefined, empty, or the string "undefined"
+    const getEnvOrDefault = (value, defaultValue) => (value && value !== "undefined" ? value : defaultValue);
+
+    const apiV2Url = getEnvOrDefault(process.env.NEXT_PUBLIC_API_V2_URL, "http://localhost:5555");
+    const webappUrl = getEnvOrDefault(process.env.NEXT_PUBLIC_WEBAPP_URL, "http://localhost:3000");
 
     let afterFiles = [
       {
