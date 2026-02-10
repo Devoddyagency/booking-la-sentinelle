@@ -1,4 +1,4 @@
-require("dotenv").config({ path: "../../.env" });
+﻿require("dotenv").config({ path: "../../.env" });
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const os = require("os");
 const englishTranslation = require("./public/static/locales/en/common.json");

@@ -30,8 +30,12 @@ export const generateStaticParams = async () => {
     const appStore = await AppRepository.findAppStore();
     return appStore.map(({ slug }) => ({ slug }));
   } catch (e: unknown) {
-    if (e instanceof Prisma.PrismaClientInitializationError) {
-      // Database is not available at build time, but that's ok – we fall back to resolving paths on demand
+    if (
+      e instanceof Prisma.PrismaClientInitializationError ||
+      e instanceof Prisma.PrismaClientKnownRequestError
+    ) {
+      // Database is not available at build time or tables don't exist yet,
+      // but that's ok – we fall back to resolving paths on demand
     } else {
       throw e;
     }
