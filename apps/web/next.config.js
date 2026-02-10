@@ -213,7 +213,7 @@ const nextConfig = {
   output: process.env.BUILD_STANDALONE === "true" ? "standalone" : undefined,
   experimental: {
     // externalize server-side node_modules with size > 1mb, to improve dev mode performance/RAM usage
-    serverComponentsExternalPackages: ["next-i18next"],
+    serverComponentsExternalPackages: ["next-i18next", "deasync"],
     optimizePackageImports: ["@calcom/ui"],
     instrumentationHook: true,
     serverActions: true,
@@ -265,7 +265,7 @@ const nextConfig = {
       config.plugins.push(
         new webpack.IgnorePlugin({
           resourceRegExp:
-            /(^@google-cloud\/spanner|^@mongodb-js\/zstd|^@sap\/hana-client\/extension\/Stream$|^@sap\/hana-client|^@sap\/hana-client$|^aws-crt|^aws4$|^better-sqlite3$|^bson-ext$|^cardinal$|^cloudflare:sockets$|^hdb-pool$|^ioredis$|^kerberos$|^mongodb-client-encryption$|^mysql$|^oracledb$|^pg-native$|^pg-query-stream$|^react-native-sqlite-storage$|^snappy\/package\.json$|^snappy$|^sql.js$|^sqlite3$|^typeorm-aurora-data-api-driver$)/,
+            /(^@google-cloud\/spanner|^@mongodb-js\/zstd|^@sap\/hana-client\/extension\/Stream$|^@sap\/hana-client|^@sap\/hana-client$|^aws-crt|^aws4$|^better-sqlite3$|^bson-ext$|^cardinal$|^cloudflare:sockets$|^deasync$|^hdb-pool$|^ioredis$|^kerberos$|^mongodb-client-encryption$|^mysql$|^oracledb$|^pg-native$|^pg-query-stream$|^react-native-sqlite-storage$|^snappy\/package\.json$|^snappy$|^sql.js$|^sqlite3$|^typeorm-aurora-data-api-driver$)/,
         })
       );
     }
@@ -307,6 +307,7 @@ const nextConfig = {
       // ignore module resolve errors caused by the server component bundler
       "pg-native": false,
       "superagent-proxy": false,
+      deasync: false,
     };
 
     /**

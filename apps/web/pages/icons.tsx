@@ -1,7 +1,6 @@
 "use client";
 
 import type { InferGetStaticPropsType } from "next";
-import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import Head from "next/head";
 
@@ -11,7 +10,12 @@ import { Icon, IconSprites } from "@calcom/ui";
 
 import { lucideIconList } from "../../../packages/ui/components/icon/icon-list.mjs";
 
-const interFont = Inter({ subsets: ["latin"], variable: "--font-inter", preload: true, display: "swap" });
+const interFont = localFont({
+  src: "../public/fonts/Inter-roman.var.woff2",
+  variable: "--font-inter",
+  preload: true,
+  display: "swap",
+});
 const calFont = localFont({
   src: "../fonts/CalSans-SemiBold.woff2",
   variable: "--font-cal",
