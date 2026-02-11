@@ -6,7 +6,7 @@ import type { SSRConfig } from "next-i18next";
 import { usePathname } from "next/navigation";
 import Script from "next/script";
 
-import "@calcom/embed-core/src/embed-iframe";
+// Embed functionality removed
 import LicenseRequired from "@calcom/features/ee/common/components/LicenseRequired";
 
 import AppProviders from "@lib/app-providers-app-dir";

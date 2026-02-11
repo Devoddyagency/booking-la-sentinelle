@@ -5,12 +5,7 @@ import type { InferGetServerSidePropsType } from "next";
 import Link from "next/link";
 import { Toaster } from "react-hot-toast";
 
-import {
-  sdkActionManager,
-  useEmbedNonStylesConfig,
-  useEmbedStyles,
-  useIsEmbed,
-} from "@calcom/embed-core/embed-iframe";
+// Embed functionality removed
 import { getOrgFullOrigin } from "@calcom/features/ee/organizations/lib/orgDomains";
 import { EventTypeDescriptionLazy as EventTypeDescription, EmptyPage } from "@calcom/features/eventtypes/components";
 import { useRouterQuery } from "@calcom/lib/hooks/useRouterQuery";
@@ -28,9 +23,9 @@ export function UserPage(props: PageProps) {
 
   const isBioEmpty = !user.bio || !user.bio.replace("<p><br></p>", "").length;
 
-  const isEmbed = useIsEmbed(props.isEmbed);
-  const eventTypeListItemEmbedStyles = useEmbedStyles("eventTypeListItem");
-  const shouldAlignCentrallyInEmbed = useEmbedNonStylesConfig("align") !== "left";
+  const isEmbed = false;
+  const eventTypeListItemEmbedStyles = {};
+  const shouldAlignCentrallyInEmbed = true;
   const shouldAlignCentrally = !isEmbed || shouldAlignCentrallyInEmbed;
   const {
     // So it doesn't display in the Link (and make tests fail)
@@ -131,9 +126,7 @@ export function UserPage(props: PageProps) {
                 }}
                 passHref
                 onClick={async () => {
-                  sdkActionManager?.fire("eventTypeSelected", {
-                    eventType: type,
-                  });
+                  // Embed SDK functionality removed
                 }}
                 className="bg-default border-subtle dark:bg-muted dark:hover:bg-emphasis hover:bg-muted group relative border-b transition first:rounded-t-md last:rounded-b-md last:border-b-0"
                 data-testid="event-type-link">

@@ -47,14 +47,7 @@ vi.mock("@calcom/features/eventtypes/components", () => ({
   EventTypeDescriptionLazy: vi.fn(),
 }));
 
-vi.mock("@calcom/embed-core/embed-iframe", () => {
-  return {
-    useIsBackgroundTransparent: vi.fn(),
-    useIsEmbed: vi.fn(),
-    useEmbedNonStylesConfig: vi.fn(),
-    useEmbedStyles: vi.fn(),
-  };
-});
+// Embed functionality removed
 
 vi.mock("@calcom/features/bookings/components/event-meta/Price", () => {
   return {};

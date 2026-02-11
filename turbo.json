@@ -164,14 +164,6 @@
     "start": {
       "outputs": ["dist/**", "build/**"]
     },
-    "embed-tests": {
-      "cache": false,
-      "outputs": ["dist/**", "build/**"]
-    },
-    "embed-tests-quick": {
-      "cache": false,
-      "outputs": ["dist/**", "build/**"]
-    },
     "type-check": {
       "cache": false
     },
@@ -186,30 +178,6 @@
       "cache": false,
       "inputs": ["../../app-store/**/**"],
       "outputs": ["../../app-store/apps.server.generated.ts", "../../app-store/apps.browser.generated.tsx"]
-    },
-    "@calcom/embed-react#type-check": {
-      "dependsOn": ["@calcom/embed-core#build", "@calcom/embed-snippet#build"],
-      "outputs": ["dist/**", "build/**"]
-    },
-    "@calcom/embed-core#build": {
-      "cache": false,
-      "outputs": ["../../../apps/web/public/embed/**"],
-      "env": [
-        "EMBED_PUBLIC_VERCEL_URL",
-        "EMBED_PUBLIC_WEBAPP_URL",
-        "EMBED_PUBLIC_EMBED_FINGER_PRINT",
-        "EMBED_PUBLIC_EMBED_VERSION"
-      ]
-    },
-    "embed-tests-update-snapshots:ci": {
-      "cache": false,
-      "dependsOn": [
-        "@calcom/prisma#db-seed",
-        "@calcom/web#build",
-        "^build",
-        "^embed-tests-update-snapshots:ci"
-      ],
-      "outputs": ["dist/**", "build/**"]
     },
     "//#env-check:common": {
       "cache": false,

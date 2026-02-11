@@ -11,7 +11,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-import { sdkActionManager, useIsEmbed } from "@calcom/embed-core/embed-iframe";
+// Embed functionality removed
 import { getOrgFullOrigin } from "@calcom/features/ee/organizations/lib/orgDomains";
 import EventTypeDescription from "@calcom/features/eventtypes/components/EventTypeDescription";
 import { getOrgOrTeamAvatar } from "@calcom/lib/defaultAvatarImage";
@@ -41,7 +41,7 @@ function TeamPage({
   const pathname = usePathname();
   const showMembers = useToggleQuery("members");
   const { t } = useLocale();
-  const isEmbed = useIsEmbed();
+  const isEmbed = false; // Embed functionality removed
   const telemetry = useTelemetry();
   const teamName = team.name || "Nameless Team";
   const isBioEmpty = !team.bio || !team.bio.replace("<p><br></p>", "").length;
@@ -91,9 +91,7 @@ function TeamPage({
                 query: queryParamsToForward,
               }}
               onClick={async () => {
-                sdkActionManager?.fire("eventTypeSelected", {
-                  eventType: type,
-                });
+                // Embed SDK functionality removed
               }}
               data-testid="event-type-link"
               className="flex justify-between">
