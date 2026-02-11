@@ -247,11 +247,6 @@ const nextConfig = {
     "@calcom/trpc",
   ],
   modularizeImports: {
-    "@calcom/features/insights/components": {
-      transform: "@calcom/features/insights/components/{{member}}",
-      skipDefaultConversion: true,
-      preventFullImport: true,
-    },
     lodash: {
       transform: "lodash/{{member}}",
     },

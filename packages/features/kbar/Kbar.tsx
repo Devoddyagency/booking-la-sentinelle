@@ -1,4 +1,3 @@
-import type { Action } from "kbar";
 import {
   KBarAnimator,
   KBarPortal,
@@ -8,7 +7,6 @@ import {
   KBarSearch,
   useKBar,
   useMatches,
-  useRegisterActions,
 } from "kbar";
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
@@ -16,16 +14,11 @@ import { useMemo } from "react";
 import { appStoreMetadata } from "@calcom/app-store/appStoreMetaData";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { isMac } from "@calcom/lib/isMac";
-import { trpc } from "@calcom/trpc/react";
-import type { RouterOutputs } from "@calcom/trpc/react";
 import { Icon, Tooltip } from "@calcom/ui";
 
 type shortcutArrayType = {
   shortcuts?: string[];
 };
-
-type EventTypeGroups = RouterOutputs["viewer"]["eventTypes"]["getByViewer"]["eventTypeGroups"];
-type EventTypeGroup = EventTypeGroups[number];
 
 const getApps = Object.values(appStoreMetadata).map(({ name, slug }) => ({
   id: slug,
@@ -33,38 +26,6 @@ const getApps = Object.values(appStoreMetadata).map(({ name, slug }) => ({
   section: "Installable Apps",
   keywords: `app ${name}`,
 }));
-
-const useEventTypesAction = () => {
-  const router = useRouter();
-  const { data } = trpc.viewer.eventTypes.getEventTypesFromGroup.useInfiniteQuery(
-    {
-      limit: 10,
-      group: { teamId: null, parentId: null },
-    },
-    {
-      refetchOnWindowFocus: false,
-      staleTime: 1 * 60 * 60 * 1000,
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
-    }
-  );
-
-  const eventTypeActions: Action[] =
-    data?.pages?.flatMap((page) => {
-      return (
-        page?.eventTypes?.map((item) => ({
-          id: `event-type-${item.id}`,
-          name: item.title,
-          section: "event_types_page_title",
-          keywords: "event types",
-          perform: () => router.push(`/event-types/${item.id}`),
-        })) ?? []
-      );
-    }) ?? [];
-
-  const actions = eventTypeActions?.length ? eventTypeActions : [];
-
-  return useRegisterActions(actions);
-};
 
 export const KBarRoot = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
@@ -87,52 +48,12 @@ export const KBarRoot = ({ children }: { children: React.ReactNode }) => {
         perform: () => router.push("/workflows"),
       },
       {
-        id: "event-types",
-        name: "event_types_page_title",
-        section: "event_types_page_title",
-        shortcut: ["e", "t"],
-        keywords: "event types",
-        perform: () => router.push("/event-types"),
-      },
-      {
         id: "app-store",
         name: "app_store",
         section: "apps",
         shortcut: ["a", "s"],
         keywords: "app store",
         perform: () => router.push("/apps"),
-      },
-      {
-        id: "upcoming-bookings",
-        name: "upcoming",
-        section: "bookings",
-        shortcut: ["u", "b"],
-        keywords: "upcoming bookings",
-        perform: () => router.push("/bookings/upcoming"),
-      },
-      {
-        id: "recurring-bookings",
-        name: "recurring",
-        section: "bookings",
-        shortcut: ["r", "b"],
-        keywords: "recurring bookings",
-        perform: () => router.push("/bookings/recurring"),
-      },
-      {
-        id: "past-bookings",
-        name: "past",
-        section: "bookings",
-        shortcut: ["p", "b"],
-        keywords: "past bookings",
-        perform: () => router.push("/bookings/past"),
-      },
-      {
-        id: "cancelled-bookings",
-        name: "cancelled",
-        section: "bookings",
-        shortcut: ["c", "b"],
-        keywords: "cancelled bookings",
-        perform: () => router.push("/bookings/cancelled"),
       },
       {
         id: "schedule",
@@ -247,7 +168,6 @@ export const KBarRoot = ({ children }: { children: React.ReactNode }) => {
 
 export const KBarContent = () => {
   const { t } = useLocale();
-  useEventTypesAction();
   return (
     <KBarPortal>
       <KBarPositioner>

@@ -8,10 +8,6 @@ import type { TaskHandler, TaskTypes } from "../tasker";
 const tasks: Record<TaskTypes, () => Promise<TaskHandler>> = {
   sendEmail: () => import("./sendEmail").then((module) => module.sendEmail),
   sendWebhook: () => import("./sendWebook").then((module) => module.sendWebhook),
-  triggerHostNoShowWebhook: () =>
-    import("./triggerNoShow/triggerHostNoShow").then((module) => module.triggerHostNoShow),
-  triggerGuestNoShowWebhook: () =>
-    import("./triggerNoShow/triggerGuestNoShow").then((module) => module.triggerGuestNoShow),
   triggerFormSubmittedNoEventWebhook: () =>
     import("./triggerFormSubmittedNoEvent/triggerFormSubmittedNoEventWebhook").then(
       (module) => module.triggerFormSubmittedNoEventWebhook

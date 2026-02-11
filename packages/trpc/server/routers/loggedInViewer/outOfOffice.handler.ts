@@ -3,12 +3,10 @@ import { v4 as uuidv4 } from "uuid";
 
 import { selectOOOEntries } from "@calcom/app-store/zapier/api/subscriptions/listOOOEntries";
 import dayjs from "@calcom/dayjs";
-import { sendBookingRedirectNotification } from "@calcom/emails";
 import type { GetSubscriberOptions } from "@calcom/features/webhooks/lib/getWebhooks";
 import getWebhooks from "@calcom/features/webhooks/lib/getWebhooks";
 import type { OOOEntryPayloadType } from "@calcom/features/webhooks/lib/sendPayload";
 import sendPayload from "@calcom/features/webhooks/lib/sendPayload";
-import { getTranslation } from "@calcom/lib/server";
 import prisma from "@calcom/prisma";
 import type { TrpcSessionUser } from "@calcom/trpc/server/trpc";
 
@@ -236,80 +234,6 @@ export const outOfOfficeCreateOrUpdate = async ({ ctx, input }: TBookingRedirect
       emoji: true,
     },
   });
-  if (toUserId) {
-    // await send email to notify user
-    const userToNotify = await prisma.user.findFirst({
-      where: {
-        id: toUserId,
-      },
-      select: {
-        email: true,
-        username: true,
-      },
-    });
-    const t = await getTranslation(ctx.user.locale ?? "en", "common");
-    const formattedStartDate = new Intl.DateTimeFormat("en-US").format(createdOrUpdatedOutOfOffice.start);
-    const formattedEndDate = new Intl.DateTimeFormat("en-US").format(createdOrUpdatedOutOfOffice.end);
-
-    const existingFormattedStartDate = previousOutOfOfficeEntry
-      ? new Intl.DateTimeFormat("en-US").format(previousOutOfOfficeEntry.start)
-      : "";
-    const existingFormattedEndDate = previousOutOfOfficeEntry
-      ? new Intl.DateTimeFormat("en-US").format(previousOutOfOfficeEntry.end)
-      : "";
-
-    const existingRedirectedUser = previousOutOfOfficeEntry?.toUser
-      ? previousOutOfOfficeEntry.toUser
-      : undefined;
-
-    // Send cancel email to the old redirect user if it is not same as the current redirect user.
-    if (existingRedirectedUser && existingRedirectedUser?.email !== userToNotify?.email) {
-      await sendBookingRedirectNotification({
-        language: t,
-        fromEmail: ctx.user.email,
-        eventOwner: ctx.user.username || ctx.user.email,
-        toEmail: existingRedirectedUser.email,
-        toName: existingRedirectedUser.username || "",
-        dates: `${existingFormattedStartDate} - ${existingFormattedEndDate}`,
-        action: "cancel",
-      });
-    }
-
-    if (userToNotify?.email) {
-      // If new redirect user exists and it is same as the old redirect user, then send update email.
-      if (
-        existingRedirectedUser &&
-        existingRedirectedUser.email === userToNotify.email &&
-        (formattedStartDate !== existingFormattedStartDate || formattedEndDate !== existingFormattedEndDate)
-      ) {
-        await sendBookingRedirectNotification({
-          language: t,
-          fromEmail: ctx.user.email,
-          eventOwner: ctx.user.username || ctx.user.email,
-          toEmail: userToNotify.email,
-          toName: userToNotify.username || "",
-          oldDates: `${existingFormattedStartDate} - ${existingFormattedEndDate}`,
-          dates: `${formattedStartDate} - ${formattedEndDate}`,
-          action: "update",
-        });
-        // If new redirect user exists and the previous redirect user didn't existed or the previous redirect user is not same as the new user, then send add email.
-      } else if (
-        !existingRedirectedUser ||
-        (existingRedirectedUser && existingRedirectedUser.email !== userToNotify.email)
-      ) {
-        await sendBookingRedirectNotification({
-          language: t,
-          fromEmail: ctx.user.email,
-          eventOwner: ctx.user.username || ctx.user.email,
-          toEmail: userToNotify.email,
-          toName: userToNotify.username || "",
-          dates: `${formattedStartDate} - ${formattedEndDate}`,
-          action: "add",
-        });
-      }
-    }
-  }
-
   const memberships = await prisma.membership.findMany({
     where: {
       userId: ctx.user.id,
@@ -416,26 +340,6 @@ export const outOfOfficeEntryDelete = async ({ ctx, input }: TBookingRedirectDel
   if (!deletedOutOfOfficeEntry) {
     throw new TRPCError({ code: "NOT_FOUND", message: "booking_redirect_not_found" });
   }
-
-  // Return early if no redirect user is set, and no email needs to be send.
-  if (!deletedOutOfOfficeEntry.toUser) {
-    return {};
-  }
-
-  const t = await getTranslation(ctx.user.locale ?? "en", "common");
-
-  const formattedStartDate = new Intl.DateTimeFormat("en-US").format(deletedOutOfOfficeEntry.start);
-  const formattedEndDate = new Intl.DateTimeFormat("en-US").format(deletedOutOfOfficeEntry.end);
-
-  await sendBookingRedirectNotification({
-    language: t,
-    fromEmail: ctx.user.email,
-    eventOwner: ctx.user.username || ctx.user.email,
-    toEmail: deletedOutOfOfficeEntry.toUser.email,
-    toName: deletedOutOfOfficeEntry.toUser.username || "",
-    dates: `${formattedStartDate} - ${formattedEndDate}`,
-    action: "cancel",
-  });
 
   return {};
 };

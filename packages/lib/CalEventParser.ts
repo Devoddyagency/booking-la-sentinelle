@@ -5,7 +5,6 @@ import { v5 as uuidv5 } from "uuid";
 import type { CalendarEvent, Person } from "@calcom/types/Calendar";
 
 import { WEBAPP_URL } from "./constants";
-import getLabelValueMapFromResponses from "./getLabelValueMapFromResponses";
 import isSmsCalEmail from "./isSmsCalEmail";
 
 const translator = short();
@@ -86,25 +85,8 @@ ${calEvent.additionalNotes}
   `;
 };
 
-export const getUserFieldsResponses = (calEvent: Parameters<typeof getLabelValueMapFromResponses>[0]) => {
-  const labelValueMap = getLabelValueMapFromResponses(calEvent);
-
-  if (!labelValueMap) {
-    return "";
-  }
-  const responsesString = Object.keys(labelValueMap)
-    .map((key) => {
-      if (!labelValueMap) return "";
-      if (labelValueMap[key] !== "") {
-        return `
-${key}:
-${labelValueMap[key]}
-  `;
-      }
-    })
-    .join("");
-
-  return responsesString;
+export const getUserFieldsResponses = (_calEvent: unknown) => {
+  return "";
 };
 
 export const getAppsStatus = (calEvent: Pick<CalendarEvent, "appsStatus">, t: TFunction) => {

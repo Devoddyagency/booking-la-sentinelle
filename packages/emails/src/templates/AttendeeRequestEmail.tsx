@@ -1,9 +1,6 @@
-import AttendeeScheduledEmailClass from "../../templates/attendee-rescheduled-email";
 import { AttendeeScheduledEmail } from "./AttendeeScheduledEmail";
 
 export const AttendeeRequestEmail = (props: React.ComponentProps<typeof AttendeeScheduledEmail>) => {
-  const date = new AttendeeScheduledEmailClass(props.calEvent, props.attendee).getFormattedDate();
-
   return (
     <AttendeeScheduledEmail
       title={props.calEvent.attendees[0].language.translate(
@@ -22,7 +19,7 @@ export const AttendeeRequestEmail = (props: React.ComponentProps<typeof Attendee
       headerType="calendarCircle"
       subject={props.calEvent.attendees[0].language.translate("booking_submitted_subject", {
         title: props.calEvent.title,
-        date,
+        date: "",
       })}
       callToAction={null}
       {...props}

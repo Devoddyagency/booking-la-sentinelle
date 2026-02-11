@@ -1,12 +1,18 @@
-import { subscriptionSchema } from "@calcom/features/instant-meeting/schema";
 import { sendNotification } from "@calcom/features/notifications/sendNotification";
 import logger from "@calcom/lib/logger";
 import prisma from "@calcom/prisma";
 import type { TrpcSessionUser } from "@calcom/trpc/server/trpc";
 
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
 
 import type { TAddNotificationsSubscriptionInputSchema } from "./addNotificationsSubscription.schema";
+
+const subscriptionSchema = z.object({
+  endpoint: z.string(),
+  expirationTime: z.number().nullable().optional(),
+  keys: z.object({ p256dh: z.string(), auth: z.string() }),
+});
 
 type AddSecondaryEmailOptions = {
   ctx: {

@@ -3,7 +3,7 @@ import Stripe from "stripe";
 import { v4 as uuidv4 } from "uuid";
 import z from "zod";
 
-import { sendAwaitingPaymentEmailAndSMS } from "@calcom/emails";
+
 import { ErrorCode } from "@calcom/lib/errorCodes";
 import { getErrorFromUnknown } from "@calcom/lib/errors";
 import logger from "@calcom/lib/logger";
@@ -14,7 +14,6 @@ import type { CalendarEvent } from "@calcom/types/Calendar";
 import type { IAbstractPaymentService } from "@calcom/types/PaymentService";
 
 import { paymentOptionEnum } from "../zod";
-import { createPaymentLink } from "./client";
 import { retrieveOrCreateStripeCustomerByEmail } from "./customer";
 import type { StripePaymentData, StripeSetupIntentData } from "./server";
 
@@ -346,23 +345,8 @@ export class PaymentService implements IAbstractPaymentService {
     paymentData: Payment,
     eventTypeMetadata?: EventTypeMetadata
   ): Promise<void> {
-    await sendAwaitingPaymentEmailAndSMS(
-      {
-        ...event,
-        paymentInfo: {
-          link: createPaymentLink({
-            paymentUid: paymentData.uid,
-            name: booking.user?.name,
-            email: booking.user?.email,
-            date: booking.startTime.toISOString(),
-          }),
-          paymentOption: paymentData.paymentOption || "ON_BOOKING",
-          amount: paymentData.amount,
-          currency: paymentData.currency,
-        },
-      },
-      eventTypeMetadata
-    );
+    // sendAwaitingPaymentEmailAndSMS removed
+    log.info("Awaiting payment email sending removed");
   }
 
   async deletePayment(paymentId: Payment["id"]): Promise<boolean> {

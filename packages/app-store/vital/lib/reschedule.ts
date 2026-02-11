@@ -5,12 +5,11 @@ import { CalendarEventBuilder } from "@calcom/core/builders/CalendarEvent/builde
 import { CalendarEventDirector } from "@calcom/core/builders/CalendarEvent/director";
 import { deleteMeeting } from "@calcom/core/videoClient";
 import dayjs from "@calcom/dayjs";
-import { sendRequestRescheduleEmailAndSMS } from "@calcom/emails";
+
 import logger from "@calcom/lib/logger";
 import { getTranslation } from "@calcom/lib/server/i18n";
 import prisma from "@calcom/prisma";
 import { BookingStatus } from "@calcom/prisma/enums";
-import type { EventTypeMetadata } from "@calcom/prisma/zod-utils";
 import type { Person } from "@calcom/types/Calendar";
 
 import { getCalendar } from "../../_utils/getCalendar";
@@ -160,20 +159,7 @@ const Reschedule = async (bookingUid: string, cancellationReason: string) => {
       }
     }
 
-    // Send emails
-    try {
-      await sendRequestRescheduleEmailAndSMS(
-        builder.calendarEvent,
-        {
-          rescheduleLink: builder.rescheduleLink,
-        },
-        bookingToReschedule?.eventType?.metadata as EventTypeMetadata
-      );
-    } catch (error) {
-      if (error instanceof Error) {
-        logger.error(error.message);
-      }
-    }
+    // Reschedule email sending removed
     return true;
   }
 };

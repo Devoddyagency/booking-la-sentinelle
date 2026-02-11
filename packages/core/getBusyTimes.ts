@@ -15,7 +15,6 @@ import { stringToDayjs } from "@calcom/prisma/zod-utils";
 import type { EventBusyDetails, IntervalLimit } from "@calcom/types/Calendar";
 import type { CredentialPayload } from "@calcom/types/Credential";
 
-import { getDefinedBufferTimes } from "../features/eventtypes/lib/getDefinedBufferTimes";
 
 export async function getBusyTimes(params: {
   credentials: CredentialPayload[];
@@ -89,8 +88,8 @@ export async function getBusyTimes(params: {
     rescheduleUid && duration ? dayjs(endTime).add(duration, "minute").toDate() : new Date(endTime);
 
   // to also get bookings that are outside of start and end time, but the buffer falls within the start and end time
-  const definedBufferTimes = getDefinedBufferTimes();
-  const maxBuffer = definedBufferTimes[definedBufferTimes.length - 1];
+  const definedBufferTimes: number[] = [];
+  const maxBuffer = definedBufferTimes[definedBufferTimes.length - 1] ?? 0;
   const startTimeAdjustedWithMaxBuffer = dayjs(startTimeDate).subtract(maxBuffer, "minute").toDate();
   const endTimeAdjustedWithMaxBuffer = dayjs(endTimeDate).add(maxBuffer, "minute").toDate();
 

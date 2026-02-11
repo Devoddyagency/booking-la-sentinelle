@@ -5,12 +5,6 @@ type TaskPayloads = {
   sendEmail: string;
   sendWebhook: string;
   sendSms: string;
-  triggerHostNoShowWebhook: z.infer<
-    typeof import("./tasks/triggerNoShow/schema").ZSendNoShowWebhookPayloadSchema
-  >;
-  triggerGuestNoShowWebhook: z.infer<
-    typeof import("./tasks/triggerNoShow/schema").ZSendNoShowWebhookPayloadSchema
-  >;
   triggerFormSubmittedNoEventWebhook: z.infer<
     typeof import("./tasks/triggerFormSubmittedNoEvent/triggerFormSubmittedNoEventWebhook").ZTriggerFormSubmittedNoEventWebhookPayloadSchema
   >;

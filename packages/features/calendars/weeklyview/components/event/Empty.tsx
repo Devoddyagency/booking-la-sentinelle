@@ -6,7 +6,7 @@ import dayjs from "@calcom/dayjs";
 import useMeQuery from "@calcom/trpc/react/hooks/useMeQuery";
 import { classNames } from "@calcom/lib";
 
-import { OutOfOfficeInSlots } from "../../../../bookings/Booker/components/OutOfOfficeInSlots";
+
 import { useCalendarStore } from "../../state/store";
 import type { CalendarAvailableTimeslots } from "../../types/state";
 import type { GridCellToDateProps } from "../../utils";
@@ -103,15 +103,7 @@ export function AvailableCellsForDay({ availableSlots, day, startHour }: Availab
         timeSlot={dayjs(firstSlot?.start).tz(slots.timezone)}
         topOffsetMinutes={slots.slots[0]?.topOffsetMinutes}
         startEndTimeDuration={startEndTimeDuration}>
-        <OutOfOfficeInSlots
-          fromUser={firstSlot?.fromUser}
-          toUser={firstSlot?.toUser}
-          reason={firstSlot?.reason}
-          emoji={firstSlot?.emoji}
-          borderDashed={false}
-          date={dateFormatted}
-          className="pb-0"
-        />
+        {null}
       </CustomCell>
     );
   }

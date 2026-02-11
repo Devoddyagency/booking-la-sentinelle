@@ -11,7 +11,6 @@ import { z } from "zod";
 
 import type { Dayjs } from "@calcom/dayjs";
 import dayjs from "@calcom/dayjs";
-import { parseBookingLimit, parseDurationLimit } from "@calcom/lib";
 import { getWorkingHours } from "@calcom/lib/availability";
 import type { DateOverride, WorkingHours } from "@calcom/lib/date-ranges";
 import { buildDateRanges, subtract } from "@calcom/lib/date-ranges";
@@ -332,8 +331,8 @@ const _getUserAvailability = async function getUsersWorkingHoursLifeTheUniverseA
     fallbackSchedule;
   const timeZone = schedule?.timeZone || fallbackTimezoneIfScheduleIsMissing;
 
-  const bookingLimits = parseBookingLimit(eventType?.bookingLimits);
-  const durationLimits = parseDurationLimit(eventType?.durationLimits);
+  const bookingLimits = null;
+  const durationLimits = null;
 
   const busyTimesFromLimits =
     eventType && (bookingLimits || durationLimits)
@@ -354,7 +353,7 @@ const _getUserAvailability = async function getUsersWorkingHoursLifeTheUniverseA
     eventType?.team ??
     (eventType?.parent?.team?.includeManagedEventsInLimits ? eventType?.parent?.team : null);
 
-  const teamBookingLimits = parseBookingLimit(teamForBookingLimits?.bookingLimits);
+  const teamBookingLimits = null;
 
   const busyTimesFromTeamLimits =
     teamForBookingLimits && teamBookingLimits

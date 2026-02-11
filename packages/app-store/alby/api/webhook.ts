@@ -7,7 +7,7 @@ import parseInvoice from "@calcom/app-store/alby/lib/parseInvoice";
 import { IS_PRODUCTION } from "@calcom/lib/constants";
 import { getErrorFromUnknown } from "@calcom/lib/errors";
 import { HttpError as HttpCode } from "@calcom/lib/http-error";
-import { handlePaymentSuccess } from "@calcom/lib/payment/handlePaymentSuccess";
+
 import prisma from "@calcom/prisma";
 
 export const config = {
@@ -88,7 +88,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       throw new HttpCode({ statusCode: 400, message: "invoice amount does not match payment amount" });
     }
 
-    return await handlePaymentSuccess(payment.id, payment.bookingId);
+    console.log("Payment success handling removed");
+    return res.status(200).json({ message: "OK" });
   } catch (_err) {
     const err = getErrorFromUnknown(_err);
     console.error(`Webhook Error: ${err.message}`);

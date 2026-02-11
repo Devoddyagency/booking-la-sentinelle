@@ -8,7 +8,7 @@ import { deleteWebhookScheduledTriggers } from "@calcom/features/webhooks/lib/sc
 import { isPrismaObjOrUndefined, parseRecurringEvent } from "@calcom/lib";
 import { deletePayment } from "@calcom/lib/payment/deletePayment";
 import { getTranslation } from "@calcom/lib/server/i18n";
-import { bookingMinimalSelect, prisma } from "@calcom/prisma";
+import { prisma } from "@calcom/prisma";
 import { AppCategories, BookingStatus } from "@calcom/prisma/enums";
 import { credentialForCalendarServiceSelect } from "@calcom/prisma/selects/credential";
 import type { EventTypeAppMetadataSchema, EventTypeMetadata } from "@calcom/prisma/zod-utils";
@@ -209,7 +209,8 @@ const handleDeleteCredential = async ({
               },
             },
             select: {
-              ...bookingMinimalSelect,
+              id: true,
+              uid: true,
               recurringEventId: true,
               userId: true,
               responses: true,
@@ -251,7 +252,6 @@ const handleDeleteCredential = async ({
                   metadata: true,
                 },
               },
-              uid: true,
               eventTypeId: true,
               destinationCalendar: true,
             },

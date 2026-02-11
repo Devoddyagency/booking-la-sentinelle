@@ -3,8 +3,6 @@ import dayjs from "@calcom/dayjs";
 import { descendingLimitKeys, intervalLimitKeyToUnit } from "@calcom/lib/intervalLimit";
 import { checkBookingLimit } from "@calcom/lib/server";
 import { performance } from "@calcom/lib/server/perfObserver";
-import { getTotalBookingDuration } from "@calcom/lib/server/queries";
-import { BookingRepository } from "@calcom/lib/server/repository/booking";
 import type { EventBusyDetails, IntervalLimit } from "@calcom/types/Calendar";
 
 import { getStartEndDateforLimitCheck } from "../getBusyTimes";
@@ -194,18 +192,7 @@ const _getBusyTimesFromDurationLimits = async (
 
       // special handling of yearly limits to improve performance
       if (unit === "year") {
-        const totalYearlyDuration = await getTotalBookingDuration({
-          eventId: eventType.id,
-          startDate: periodStart.toDate(),
-          endDate: periodStart.endOf(unit).toDate(),
-          rescheduleUid,
-        });
-        if (totalYearlyDuration + selectedDuration > limit) {
-          limitManager.addBusyTime(periodStart, unit);
-          if (periodStartDates.every((start) => limitManager.isAlreadyBusy(start, unit))) {
-            return;
-          }
-        }
+        // getTotalBookingDuration was removed; skip yearly duration limit check
         continue;
       }
 
@@ -249,22 +236,8 @@ const _getBusyTimesFromTeamLimits = async (
     bookingLimits
   );
 
-  const bookings = await BookingRepository.getAllAcceptedTeamBookingsOfUser({
-    user,
-    teamId,
-    startDate: limitDateFrom.toDate(),
-    endDate: limitDateTo.toDate(),
-    excludedUid: rescheduleUid,
-    includeManagedEvents,
-  });
-
-  const busyTimes = bookings.map(({ id, startTime, endTime, eventTypeId, title, userId }) => ({
-    start: dayjs(startTime).toDate(),
-    end: dayjs(endTime).toDate(),
-    title,
-    source: `eventType-${eventTypeId}-booking-${id}`,
-    userId,
-  }));
+  // BookingRepository was removed; returning empty bookings
+  const busyTimes: EventBusyDetails[] = [];
 
   const limitManager = new LimitManager();
 

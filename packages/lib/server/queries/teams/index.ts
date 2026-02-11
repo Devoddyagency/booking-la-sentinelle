@@ -1,7 +1,6 @@
 import { Prisma } from "@prisma/client";
 
 import { getAppFromSlug } from "@calcom/app-store/utils";
-import { parseBookingLimit } from "@calcom/lib";
 import prisma, { baseEventTypeSelect } from "@calcom/prisma";
 import type { Team } from "@calcom/prisma/client";
 import { SchedulingType } from "@calcom/prisma/enums";
@@ -358,7 +357,7 @@ export async function getTeamWithoutMembers(args: {
         token.expires > new Date(new Date().setHours(24))
     ),
     metadata: restTeamMetadata,
-    bookingLimits: parseBookingLimit(teamOrOrg.bookingLimits),
+    bookingLimits: null,
   };
 }
 

@@ -1,6 +1,5 @@
 import type { User } from "@prisma/client";
 
-import { BookingRepository } from "@calcom/lib/server/repository/booking";
 import prisma from "@calcom/prisma";
 import type { Booking } from "@calcom/prisma/client";
 import { BookingStatus } from "@calcom/prisma/enums";
@@ -152,10 +151,7 @@ async function getUsersBasedOnWeights<
     []
   );
 
-  const bookingsOfNotAvailableUsers = await BookingRepository.getAllBookingsForRoundRobin({
-    eventTypeId: eventType.id,
-    users: notAvailableHosts,
-  });
+  const bookingsOfNotAvailableUsers: PartialBooking[] = [];
 
   const allBookings = bookingsOfAvailableUsers.concat(bookingsOfNotAvailableUsers);
 
@@ -221,12 +217,7 @@ export async function getLuckyUser<
     return availableUsers[0];
   }
 
-  const bookingsOfAvailableUsers = await BookingRepository.getAllBookingsForRoundRobin({
-    eventTypeId: eventType.id,
-    users: availableUsers.map((user) => {
-      return { id: user.id, email: user.email };
-    }),
-  });
+  const bookingsOfAvailableUsers: PartialBooking[] = [];
 
   switch (distributionAlgorithm) {
     case "MAXIMIZE_AVAILABILITY":

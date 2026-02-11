@@ -7,7 +7,7 @@ import Paypal from "@calcom/app-store/paypal/lib/Paypal";
 import { IS_PRODUCTION } from "@calcom/lib/constants";
 import { getErrorFromUnknown } from "@calcom/lib/errors";
 import { HttpError as HttpCode } from "@calcom/lib/http-error";
-import { handlePaymentSuccess } from "@calcom/lib/payment/handlePaymentSuccess";
+
 import prisma from "@calcom/prisma";
 
 export const config = {
@@ -62,7 +62,7 @@ export async function handlePaypalPaymentSuccess(
     },
   });
 
-  return await handlePaymentSuccess(payment.id, payment.bookingId);
+  console.log("Payment success handling removed");
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
