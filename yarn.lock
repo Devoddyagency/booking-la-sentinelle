@@ -3964,52 +3964,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@calcom/embed-core@workspace:*, @calcom/embed-core@workspace:packages/embeds/embed-core":
-  version: 0.0.0-use.local
-  resolution: "@calcom/embed-core@workspace:packages/embeds/embed-core"
-  dependencies:
-    "@playwright/test": ^1.45.3
-    "@vitejs/plugin-basic-ssl": ^1.1.0
-    autoprefixer: ^10.4.12
-    npm-run-all: ^4.1.5
-    postcss: ^8.4.18
-    tailwindcss: ^3.3.3
-    typescript: ^4.9.4
-    vite: ^4.1.2
-    vite-plugin-environment: ^1.1.3
-  languageName: unknown
-  linkType: soft
-
-"@calcom/embed-react@workspace:*, @calcom/embed-react@workspace:packages/embeds/embed-react":
-  version: 0.0.0-use.local
-  resolution: "@calcom/embed-react@workspace:packages/embeds/embed-react"
-  dependencies:
-    "@calcom/embed-core": "workspace:*"
-    "@calcom/embed-snippet": "workspace:*"
-    "@playwright/test": ^1.45.3
-    "@types/react": 18.0.26
-    "@types/react-dom": ^18.0.9
-    "@vitejs/plugin-react": ^2.2.0
-    eslint: ^8.34.0
-    npm-run-all: ^4.1.5
-    typescript: ^4.9.4
-    vite: ^4.5.2
-  peerDependencies:
-    react: ^18.2.0
-    react-dom: ^18.2.0
-  languageName: unknown
-  linkType: soft
-
-"@calcom/embed-snippet@workspace:*, @calcom/embed-snippet@workspace:packages/embeds/embed-snippet":
-  version: 0.0.0-use.local
-  resolution: "@calcom/embed-snippet@workspace:packages/embeds/embed-snippet"
-  dependencies:
-    "@calcom/embed-core": "workspace:*"
-    typescript: ^4.9.4
-    vite: ^4.1.2
-  languageName: unknown
-  linkType: soft
-
 "@calcom/eslint-plugin-eslint@*, @calcom/eslint-plugin-eslint@workspace:packages/eslint-plugin":
   version: 0.0.0-use.local
   resolution: "@calcom/eslint-plugin-eslint@workspace:packages/eslint-plugin"
@@ -4986,9 +4940,6 @@ __metadata:
     "@calcom/config": "*"
     "@calcom/core": "*"
     "@calcom/dayjs": "*"
-    "@calcom/embed-core": "workspace:*"
-    "@calcom/embed-react": "workspace:*"
-    "@calcom/embed-snippet": "workspace:*"
     "@calcom/features": "*"
     "@calcom/lib": "*"
     "@calcom/platform-enums": "*"
@@ -16799,15 +16750,6 @@ __metadata:
     satori: 0.4.4
     yoga-wasm-web: 0.3.3
   checksum: bf6a361ad7f29fc32c04692fd19162f7b6c1dea9fa0f30bd601d810c853997c27f95e8e4e376dbf217bcf510e67e9f745db945426404e58f1806ae776604431d
-  languageName: node
-  linkType: hard
-
-"@vitejs/plugin-basic-ssl@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@vitejs/plugin-basic-ssl@npm:1.1.0"
-  peerDependencies:
-    vite: ^3.0.0 || ^4.0.0 || ^5.0.0
-  checksum: 1531eed619500d65c810c8077e1cb179204a303c7dea1cfff4de4959e29c397e1dc7a1d4b9feea2b87648a78a7b555108abc4b1c66923d89e699e9d717ea3a9a
   languageName: node
   linkType: hard
 
@@ -43259,46 +43201,6 @@ __metadata:
   bin:
     vite: bin/vite.js
   checksum: 9d1f84f703c2660aced34deee7f309278ed368880f66e9570ac115c793d91f7fffb80ab19c602b3c8bc1341fe23437d86a3fcca2a9ef82f7ef0cdac5a40d0c86
-  languageName: node
-  linkType: hard
-
-"vite@npm:^4.5.2":
-  version: 4.5.3
-  resolution: "vite@npm:4.5.3"
-  dependencies:
-    esbuild: ^0.18.10
-    fsevents: ~2.3.2
-    postcss: ^8.4.27
-    rollup: ^3.27.1
-  peerDependencies:
-    "@types/node": ">= 14"
-    less: "*"
-    lightningcss: ^1.21.0
-    sass: "*"
-    stylus: "*"
-    sugarss: "*"
-    terser: ^5.4.0
-  dependenciesMeta:
-    fsevents:
-      optional: true
-  peerDependenciesMeta:
-    "@types/node":
-      optional: true
-    less:
-      optional: true
-    lightningcss:
-      optional: true
-    sass:
-      optional: true
-    stylus:
-      optional: true
-    sugarss:
-      optional: true
-    terser:
-      optional: true
-  bin:
-    vite: bin/vite.js
-  checksum: fd3f512ce48ca2a1fe60ad0376283b832de9272725fdbc65064ae9248f792de87b0f27a89573115e23e26784800daca329f8a9234d298ba6f60e808a9c63883c
   languageName: node
   linkType: hard
 

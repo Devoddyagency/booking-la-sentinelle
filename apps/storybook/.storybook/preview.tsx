@@ -4,7 +4,8 @@ import type { Preview } from "@storybook/react";
 import React from "react";
 import { I18nextProvider } from "react-i18next";
 
-import type { EmbedThemeConfig } from "@calcom/embed-core/src/types";
+// Embed functionality removed - using simple type definition
+type EmbedThemeConfig = "light" | "dark" | "auto";
 // adds trpc context to all stories (esp. booker)
 import { StorybookTrpcProvider } from "@calcom/ui";
 
