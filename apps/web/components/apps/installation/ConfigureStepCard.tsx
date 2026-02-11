@@ -15,7 +15,6 @@ import type { EventTypeMetaDataSchema, eventTypeBookingFields } from "@calcom/pr
 import { Button, Form, Icon, Avatar } from "@calcom/ui";
 
 import EventTypeAppSettingsWrapper from "@components/apps/installation/EventTypeAppSettingsWrapper";
-import EventTypeConferencingAppSettings from "@components/apps/installation/EventTypeConferencingAppSettings";
 
 import type { TEventType, TEventTypesForm, TEventTypeGroup } from "~/apps/installation/[[...step]]/step-view";
 
@@ -96,11 +95,7 @@ const EventTypeAppSettingsForm = forwardRef<HTMLButtonElement, EventTypeAppSetti
                 /{eventType.team ? eventType.team.slug : props.userName}/{eventType.slug}
               </small>
             </div>
-            {isConferencing ? (
-              <EventTypeConferencingAppSettings {...props} />
-            ) : (
-              <EventTypeAppSettingsWrapper {...props} />
-            )}
+            <EventTypeAppSettingsWrapper {...props} />
             <Icon
               name="x"
               data-testid={`remove-event-type-${eventType.id}`}
