@@ -5,7 +5,6 @@ import type { UseFormReturn } from "react-hook-form";
 import { Controller, useFormContext } from "react-hook-form";
 
 import LicenseRequired from "@calcom/features/ee/common/components/LicenseRequired";
-import AddMembersWithSwitch from "@calcom/features/eventtypes/components/AddMembersWithSwitch";
 import { ShellMain } from "@calcom/features/shell/Shell";
 import cn from "@calcom/lib/classNames";
 import useApp from "@calcom/lib/hooks/useApp";
@@ -634,52 +633,7 @@ function SingleForm({ form, appUrl, Page, enrichedWithUserProfileForm }: SingleF
                         <span className="text-emphasis mb-3 block text-sm font-medium leading-none">
                           {t("routing_forms_send_email_to")}
                         </span>
-                        <AddMembersWithSwitch
-                          teamMembers={form.teamMembers.map((member) => ({
-                            value: member.id.toString(),
-                            label: member.name || member.email,
-                            avatar: member.avatarUrl || "",
-                            email: member.email,
-                            isFixed: true,
-                            defaultScheduleId: member.defaultScheduleId,
-                          }))}
-                          value={sendUpdatesTo.map((userId) => ({
-                            isFixed: true,
-                            userId: userId,
-                            priority: 2,
-                            weight: 100,
-                            weightAdjustment: 0,
-                            scheduleId: 1,
-                          }))}
-                          onChange={(value) => {
-                            hookForm.setValue(
-                              "settings.sendUpdatesTo",
-                              value.map((teamMember) => teamMember.userId),
-                              { shouldDirty: true }
-                            );
-                            hookForm.setValue("settings.emailOwnerOnSubmission", false, {
-                              shouldDirty: true,
-                            });
-                          }}
-                          assignAllTeamMembers={sendToAll}
-                          setAssignAllTeamMembers={(value) => {
-                            hookForm.setValue("settings.sendToAll", !!value, { shouldDirty: true });
-                          }}
-                          automaticAddAllEnabled={true}
-                          isFixed={true}
-                          onActive={() => {
-                            hookForm.setValue(
-                              "settings.sendUpdatesTo",
-                              form.teamMembers.map((teamMember) => teamMember.id),
-                              { shouldDirty: true }
-                            );
-                            hookForm.setValue("settings.emailOwnerOnSubmission", false, {
-                              shouldDirty: true,
-                            });
-                          }}
-                          placeholder={t("select_members")}
-                          containerClassName="!px-0 !pb-0 !pt-0"
-                        />
+                        {/* AddMembersWithSwitch removed */}
                       </div>
                     ) : (
                       <Controller

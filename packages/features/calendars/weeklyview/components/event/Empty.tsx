@@ -3,7 +3,7 @@ import { shallow } from "zustand/shallow";
 
 import type { Dayjs } from "@calcom/dayjs";
 import dayjs from "@calcom/dayjs";
-import { useTimePreferences } from "@calcom/features/bookings/lib";
+import useMeQuery from "@calcom/trpc/react/hooks/useMeQuery";
 import { classNames } from "@calcom/lib";
 
 import { OutOfOfficeInSlots } from "../../../../bookings/Booker/components/OutOfOfficeInSlots";
@@ -39,7 +39,7 @@ type AvailableCellProps = {
 };
 
 export function AvailableCellsForDay({ availableSlots, day, startHour }: AvailableCellProps) {
-  const { timezone } = useTimePreferences();
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const date = dayjs(day);
   const dateFormatted = date.format("YYYY-MM-DD");
   const slotsForToday = availableSlots && availableSlots[dateFormatted];
@@ -136,7 +136,8 @@ type CellProps = {
 };
 
 function Cell({ isDisabled, topOffsetMinutes, timeSlot }: CellProps) {
-  const { timeFormat } = useTimePreferences();
+  const { data: meData } = useMeQuery();
+  const timeFormat = meData?.timeFormat === 24 ? "HH:mm" : "h:mma";
 
   const { onEmptyCellClick, hoverEventDuration } = useCalendarStore(
     (state) => ({

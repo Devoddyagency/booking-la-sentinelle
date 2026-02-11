@@ -1,1 +1,1 @@
-export { default as bookingReferenceMiddleware } from "./bookingReference";
+// Middleware exports - booking reference middleware removed

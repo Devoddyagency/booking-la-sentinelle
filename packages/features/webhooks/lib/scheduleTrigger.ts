@@ -3,7 +3,6 @@ import { v4 } from "uuid";
 
 import { selectOOOEntries } from "@calcom/app-store/zapier/api/subscriptions/listOOOEntries";
 import { getHumanReadableLocationValue } from "@calcom/core/location";
-import { getCalEventResponses } from "@calcom/features/bookings/lib/getCalEventResponses";
 import logger from "@calcom/lib/logger";
 import { safeStringify } from "@calcom/lib/safeStringify";
 import { getTranslation } from "@calcom/lib/server";
@@ -221,10 +220,6 @@ export async function listBookings(
     const updatedBookings = bookings.map((booking) => {
       return {
         ...booking,
-        ...getCalEventResponses({
-          bookingFields: booking.eventType?.bookingFields ?? null,
-          booking,
-        }),
         location: getHumanReadableLocationValue(booking.location || "", t),
       };
     });

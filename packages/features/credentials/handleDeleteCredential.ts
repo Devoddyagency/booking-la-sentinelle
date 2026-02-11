@@ -4,8 +4,6 @@ import z from "zod";
 import { getCalendar } from "@calcom/app-store/_utils/getCalendar";
 import { appStoreMetadata } from "@calcom/app-store/appStoreMetaData";
 import { DailyLocationType } from "@calcom/core/location";
-import { sendCancelledEmailsAndSMS } from "@calcom/emails";
-import { getCalEventResponses } from "@calcom/features/bookings/lib/getCalEventResponses";
 import { deleteWebhookScheduledTriggers } from "@calcom/features/webhooks/lib/scheduleTrigger";
 import { isPrismaObjOrUndefined, parseRecurringEvent } from "@calcom/lib";
 import { deletePayment } from "@calcom/lib/payment/deletePayment";
@@ -294,64 +292,6 @@ const handleDeleteCredential = async ({
                 bookingId: booking.id,
               },
             });
-
-            const attendeesListPromises = booking.attendees.map(async (attendee) => {
-              return {
-                name: attendee.name,
-                email: attendee.email,
-                timeZone: attendee.timeZone,
-                language: {
-                  translate: await getTranslation(attendee.locale ?? "en", "common"),
-                  locale: attendee.locale ?? "en",
-                },
-              };
-            });
-
-            const attendeesList = await Promise.all(attendeesListPromises);
-            const tOrganizer = await getTranslation(booking?.user?.locale ?? "en", "common");
-            await sendCancelledEmailsAndSMS(
-              {
-                type: booking?.eventType?.title as string,
-                title: booking.title,
-                description: booking.description,
-                customInputs: isPrismaObjOrUndefined(booking.customInputs),
-                ...getCalEventResponses({
-                  bookingFields: booking.eventType?.bookingFields ?? null,
-                  booking,
-                }),
-                startTime: booking.startTime.toISOString(),
-                endTime: booking.endTime.toISOString(),
-                organizer: {
-                  email: booking?.userPrimaryEmail ?? (booking?.user?.email as string),
-                  name: booking?.user?.name ?? "Nameless",
-                  timeZone: booking?.user?.timeZone as string,
-                  language: { translate: tOrganizer, locale: booking?.user?.locale ?? "en" },
-                },
-                attendees: attendeesList,
-                uid: booking.uid,
-                recurringEvent: parseRecurringEvent(booking.eventType?.recurringEvent),
-                location: booking.location,
-                destinationCalendar: booking.destinationCalendar
-                  ? [booking.destinationCalendar]
-                  : booking.user?.destinationCalendar
-                  ? [booking.user?.destinationCalendar]
-                  : [],
-                cancellationReason: "Payment method removed by organizer",
-                seatsPerTimeSlot: booking.eventType?.seatsPerTimeSlot,
-                seatsShowAttendees: booking.eventType?.seatsShowAttendees,
-                team: !!booking.eventType?.team
-                  ? {
-                      name: booking.eventType.team.name,
-                      id: booking.eventType.team.id,
-                      members: [],
-                    }
-                  : undefined,
-              },
-              {
-                eventName: booking?.eventType?.eventName,
-              },
-              booking?.eventType?.metadata as EventTypeMetadata
-            );
           }
         });
       }

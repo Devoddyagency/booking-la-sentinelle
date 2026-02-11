@@ -2,7 +2,6 @@ import { useState } from "react";
 import type { UseFormSetValue } from "react-hook-form";
 
 import dayjs from "@calcom/dayjs";
-import { useTimePreferences } from "@calcom/features/bookings/lib/timePreferences";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import {
   Dialog,
@@ -33,7 +32,7 @@ const TravelScheduleModal = ({
   existingSchedules,
 }: TravelScheduleModalProps) => {
   const { t } = useLocale();
-  const { timezone: preferredTimezone } = useTimePreferences();
+  const preferredTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date | undefined>(new Date());

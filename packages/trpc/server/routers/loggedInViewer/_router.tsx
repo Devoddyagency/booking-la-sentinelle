@@ -4,16 +4,12 @@ import { ZAddNotificationsSubscriptionInputSchema } from "./addNotificationsSubs
 import { ZAddSecondaryEmailInputSchema } from "./addSecondaryEmail.schema";
 import { ZAppByIdInputSchema } from "./appById.schema";
 import { ZAppCredentialsByTypeInputSchema } from "./appCredentialsByType.schema";
-import { ZConnectAndJoinInputSchema } from "./connectAndJoin.schema";
 import { ZConnectedCalendarsInputSchema } from "./connectedCalendars.schema";
 import { ZDeleteCredentialInputSchema } from "./deleteCredential.schema";
 import { ZDeleteMeInputSchema } from "./deleteMe.schema";
 import { ZEventTypeOrderInputSchema } from "./eventTypeOrder.schema";
-import { ZGetCalVideoRecordingsInputSchema } from "./getCalVideoRecordings.schema";
-import { ZGetDownloadLinkOfCalVideoRecordingsInputSchema } from "./getDownloadLinkOfCalVideoRecordings.schema";
 import { ZIntegrationsInputSchema } from "./integrations.schema";
 import { ZLocationOptionsInputSchema } from "./locationOptions.schema";
-import { ZNoShowInputSchema } from "./markNoShow.schema";
 import { ZOutOfOfficeInputSchema, ZOutOfOfficeDelete } from "./outOfOffice.schema";
 import { me } from "./procedures/me";
 import { platformMe } from "./procedures/platformMe";
@@ -49,14 +45,12 @@ type AppsRouterHandlerCache = {
   submitFeedback?: typeof import("./submitFeedback.handler").submitFeedbackHandler;
   locationOptions?: typeof import("./locationOptions.handler").locationOptionsHandler;
   deleteCredential?: typeof import("./deleteCredential.handler").deleteCredentialHandler;
-  bookingUnconfirmedCount?: typeof import("./bookingUnconfirmedCount.handler").bookingUnconfirmedCountHandler;
   getCalVideoRecordings?: typeof import("./getCalVideoRecordings.handler").getCalVideoRecordingsHandler;
   getDownloadLinkOfCalVideoRecordings?: typeof import("./getDownloadLinkOfCalVideoRecordings.handler").getDownloadLinkOfCalVideoRecordingsHandler;
   getUsersDefaultConferencingApp?: typeof import("./getUsersDefaultConferencingApp.handler").getUsersDefaultConferencingAppHandler;
   updateUserDefaultConferencingApp?: typeof import("./updateUserDefaultConferencingApp.handler").updateUserDefaultConferencingAppHandler;
   teamsAndUserProfilesQuery?: typeof import("./teamsAndUserProfilesQuery.handler").teamsAndUserProfilesQuery;
   getUserTopBanners?: typeof import("./getUserTopBanners.handler").getUserTopBannersHandler;
-  connectAndJoin?: typeof import("./connectAndJoin.handler").Handler;
   outOfOfficeCreateOrUpdate?: typeof import("./outOfOffice.handler").outOfOfficeCreateOrUpdate;
   outOfOfficeEntriesList?: typeof import("./outOfOffice.handler").outOfOfficeEntriesList;
   outOfOfficeEntryDelete?: typeof import("./outOfOffice.handler").outOfOfficeEntryDelete;
@@ -65,7 +59,6 @@ type AppsRouterHandlerCache = {
   outOfOfficeReasonList?: typeof import("./outOfOfficeReasons.handler").outOfOfficeReasonList;
   addNotificationsSubscription?: typeof import("./addNotificationsSubscription.handler").addNotificationsSubscriptionHandler;
   removeNotificationsSubscription?: typeof import("./removeNotificationsSubscription.handler").removeNotificationsSubscriptionHandler;
-  markNoShow?: typeof import("./markNoShow.handler").markNoShow;
 };
 
 const UNSTABLE_HANDLER_CACHE: AppsRouterHandlerCache = {};
@@ -302,21 +295,6 @@ export const loggedInViewerRouter = router({
     return UNSTABLE_HANDLER_CACHE.deleteCredential({ ctx, input });
   }),
 
-  bookingUnconfirmedCount: authedProcedure.query(async ({ ctx }) => {
-    if (!UNSTABLE_HANDLER_CACHE.bookingUnconfirmedCount) {
-      UNSTABLE_HANDLER_CACHE.bookingUnconfirmedCount = (
-        await import("./bookingUnconfirmedCount.handler")
-      ).bookingUnconfirmedCountHandler;
-    }
-
-    // Unreachable code but required for type safety
-    if (!UNSTABLE_HANDLER_CACHE.bookingUnconfirmedCount) {
-      throw new Error("Failed to load handler");
-    }
-
-    return UNSTABLE_HANDLER_CACHE.bookingUnconfirmedCount({ ctx });
-  }),
-
   getCalVideoRecordings: authedProcedure
     .input(ZGetCalVideoRecordingsInputSchema)
     .query(async ({ ctx, input }) => {
@@ -412,18 +390,6 @@ export const loggedInViewerRouter = router({
     return UNSTABLE_HANDLER_CACHE.shouldVerifyEmail({ ctx });
   }),
   teamsAndUserProfilesQuery,
-  connectAndJoin: authedProcedure.input(ZConnectAndJoinInputSchema).mutation(async ({ ctx, input }) => {
-    if (!UNSTABLE_HANDLER_CACHE.connectAndJoin) {
-      UNSTABLE_HANDLER_CACHE.connectAndJoin = (await import("./connectAndJoin.handler")).Handler;
-    }
-
-    // Unreachable code but required for type safety
-    if (!UNSTABLE_HANDLER_CACHE.connectAndJoin) {
-      throw new Error("Failed to load handler");
-    }
-
-    return UNSTABLE_HANDLER_CACHE.connectAndJoin({ ctx, input });
-  }),
   outOfOfficeCreateOrUpdate: authedProcedure
     .input(ZOutOfOfficeInputSchema)
     .mutation(async ({ ctx, input }) => {
@@ -542,15 +508,4 @@ export const loggedInViewerRouter = router({
 
       return UNSTABLE_HANDLER_CACHE.removeNotificationsSubscription({ ctx, input });
     }),
-  markNoShow: authedProcedure.input(ZNoShowInputSchema).mutation(async (opts) => {
-    if (!UNSTABLE_HANDLER_CACHE.markNoShow) {
-      UNSTABLE_HANDLER_CACHE.markNoShow = (await import("./markNoShow.handler")).markNoShow;
-    }
-
-    // Unreachable code but required for type safety
-    if (!UNSTABLE_HANDLER_CACHE.markNoShow) {
-      throw new Error("Failed to load handler");
-    }
-    return UNSTABLE_HANDLER_CACHE.markNoShow(opts);
-  }),
 });

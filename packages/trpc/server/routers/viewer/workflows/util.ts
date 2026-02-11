@@ -7,12 +7,6 @@ import { scheduleEmailReminder } from "@calcom/ee/workflows/lib/reminders/emailR
 import { scheduleSMSReminder } from "@calcom/ee/workflows/lib/reminders/smsReminderManager";
 import { scheduleWhatsappReminder } from "@calcom/ee/workflows/lib/reminders/whatsappReminderManager";
 import type { Workflow as WorkflowType } from "@calcom/ee/workflows/lib/types";
-import { SMS_REMINDER_NUMBER_FIELD } from "@calcom/features/bookings/lib/SystemField";
-import {
-  getSmsReminderNumberField,
-  getSmsReminderNumberSource,
-} from "@calcom/features/bookings/lib/getBookingFields";
-import { removeBookingField, upsertBookingField } from "@calcom/features/eventtypes/lib/bookingFieldsManager";
 import { SENDER_ID, SENDER_NAME } from "@calcom/lib/constants";
 import { getBookerBaseUrl } from "@calcom/lib/getBookerUrl/server";
 import getOrgIdFromMemberOrTeamId from "@calcom/lib/getOrgIdFromMemberOrTeamId";
@@ -252,22 +246,8 @@ export async function upsertSmsReminderFieldForEventTypes({
   isSmsReminderNumberRequired: boolean;
   isOrg: boolean;
 }) {
-  let allEventTypeIds = activeOn;
-
-  if (isOrg) {
-    allEventTypeIds = await getAllUserAndTeamEventTypes(activeOn);
-  }
-
-  for (const eventTypeId of allEventTypeIds) {
-    await upsertBookingField(
-      getSmsReminderNumberField(),
-      getSmsReminderNumberSource({
-        workflowId,
-        isSmsReminderNumberRequired,
-      }),
-      eventTypeId
-    );
-  }
+  // SMS reminder field management removed with booking module
+  log.info("SMS reminder field upsert skipped - booking module removed");
 }
 
 export async function removeSmsReminderFieldForEventTypes({
@@ -281,17 +261,8 @@ export async function removeSmsReminderFieldForEventTypes({
   isOrg: boolean;
   activeOn?: number[];
 }) {
-  let allEventTypeIds = activeOnToRemove;
-
-  if (isOrg) {
-    allEventTypeIds = await getAllUserAndTeamEventTypes(activeOnToRemove, activeOn);
-  }
-  for (const eventTypeId of allEventTypeIds) {
-    await removeSmsReminderFieldForEventType({
-      workflowId,
-      eventTypeId,
-    });
-  }
+  // SMS reminder field management removed with booking module
+  log.info("SMS reminder field removal skipped - booking module removed");
 }
 
 export async function removeSmsReminderFieldForEventType({
@@ -301,16 +272,8 @@ export async function removeSmsReminderFieldForEventType({
   workflowId: number;
   eventTypeId: number;
 }) {
-  await removeBookingField(
-    {
-      name: SMS_REMINDER_NUMBER_FIELD,
-    },
-    {
-      id: `${workflowId}`,
-      type: "workflow",
-    },
-    eventTypeId
-  );
+  // SMS reminder field management removed with booking module
+  log.info("SMS reminder field removal skipped - booking module removed");
 }
 
 async function getAllUserAndTeamEventTypes(teamIds: number[], notMemberOfTeamId: number[] = []) {

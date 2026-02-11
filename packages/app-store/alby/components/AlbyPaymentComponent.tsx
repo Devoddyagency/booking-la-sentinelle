@@ -4,7 +4,6 @@ import QRCode from "react-qr-code";
 import z from "zod";
 
 import type { PaymentPageProps } from "@calcom/features/ee/payments/pages/payment";
-import { useBookingSuccessRedirect } from "@calcom/lib/bookingSuccessRedirect";
 import { useCompatSearchParams } from "@calcom/lib/hooks/useCompatSearchParams";
 import { useCopy } from "@calcom/lib/hooks/useCopy";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
@@ -126,67 +125,12 @@ export const AlbyPaymentComponent = (props: IAlbyPaymentComponentProps) => {
 type PaymentCheckerProps = PaymentPageProps;
 
 function PaymentChecker(props: PaymentCheckerProps) {
-  // TODO: move booking success code to a common lib function
-  // TODO: subscribe rather than polling
-  const searchParams = useCompatSearchParams();
-  const bookingSuccessRedirect = useBookingSuccessRedirect();
-  const utils = trpc.useUtils();
+  // Payment checking disabled - booking module removed
   const { t } = useLocale();
 
   useEffect(() => {
-    if (searchParams === null) {
-      return;
-    }
-
-    // use closure to ensure non-nullability
-    const sp = searchParams;
-
-    const interval = setInterval(() => {
-      (async () => {
-        if (props.booking.status === "ACCEPTED") {
-          return;
-        }
-        const { booking: bookingResult } = await utils.viewer.bookings.find.fetch({
-          bookingUid: props.booking.uid,
-        });
-
-        if (bookingResult?.paid) {
-          showToast("Payment successful", "success");
-
-          const params: {
-            uid: string;
-            email: string | null;
-            location: string;
-          } = {
-            uid: props.booking.uid,
-            email: sp.get("email"),
-            location: t("web_conferencing_details_to_follow"),
-          };
-
-          bookingSuccessRedirect({
-            successRedirectUrl: props.eventType.successRedirectUrl,
-            query: params,
-            booking: props.booking,
-            forwardParamsSuccessRedirect: props.eventType.forwardParamsSuccessRedirect,
-          });
-        }
-      })();
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [
-    bookingSuccessRedirect,
-    props.booking,
-    props.booking.id,
-    props.booking.status,
-    props.eventType.id,
-    props.eventType.successRedirectUrl,
-    props.eventType.forwardParamsSuccessRedirect,
-    props.payment.success,
-    searchParams,
-    t,
-    utils.viewer.bookings,
-  ]);
+    // Payment polling removed with booking module
+  }, [t]);
 
   return null;
 }

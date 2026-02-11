@@ -5,7 +5,6 @@ import type { Time } from "ical.js";
 import type { TFunction } from "next-i18next";
 import type z from "zod";
 
-import type { bookingResponse } from "@calcom/features/bookings/lib/getBookingResponsesSchema";
 import type { Calendar } from "@calcom/features/calendars/weeklyview";
 import type { TimeFormat } from "@calcom/lib/timeFormat";
 import type { SchedulingType } from "@calcom/prisma/enums";

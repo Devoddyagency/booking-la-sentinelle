@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 
 import dayjs from "@calcom/dayjs";
-import { useTimePreferences } from "@calcom/features/bookings/lib";
+import useMeQuery from "@calcom/trpc/react/hooks/useMeQuery";
 
 import { useCalendarStore } from "../../state/store";
 
@@ -19,7 +19,9 @@ export function CurrentTime() {
     startHour: state.startHour || 0,
     endHour: state.endHour || 23,
   }));
-  const { timeFormat, timezone } = useTimePreferences();
+  const { data: meData } = useMeQuery();
+  const timeFormat = meData?.timeFormat === 24 ? "HH:mm" : "h:mma";
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   useEffect(() => {
     // Set the container scroll position based on the current time.

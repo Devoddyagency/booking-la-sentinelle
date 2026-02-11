@@ -332,21 +332,6 @@ const nextConfig = {
         destination: "/apps/routing-forms/router/:path*",
       },
       {
-        source: "/success/:path*",
-        has: [
-          {
-            type: "query",
-            key: "uid",
-            value: "(?<uid>.*)",
-          },
-        ],
-        destination: "/booking/:uid/:path*",
-      },
-      {
-        source: "/cancel/:path*",
-        destination: "/booking/:path*",
-      },
-      {
         /**
          * Needed due to the introduction of dotted usernames
          * @see https://github.com/calcom/cal.com/pull/11706
@@ -598,11 +583,6 @@ const nextConfig = {
         permanent: false,
       },
       {
-        source: "/bookings",
-        destination: "/bookings/upcoming",
-        permanent: true,
-      },
-      {
         source: "/call/:path*",
         destination: "/video/:path*",
         permanent: false,
@@ -620,11 +600,6 @@ const nextConfig = {
         ],
         destination: "/404",
         permanent: false,
-      },
-      {
-        source: "/booking/direct/:action/:email/:bookingUid/:oldToken",
-        destination: "/api/link?action=:action&email=:email&bookingUid=:bookingUid&oldToken=:oldToken",
-        permanent: true,
       },
       {
         source: "/support",

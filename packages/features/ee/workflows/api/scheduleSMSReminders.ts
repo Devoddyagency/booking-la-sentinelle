@@ -2,7 +2,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import dayjs from "@calcom/dayjs";
-import { getCalEventResponses } from "@calcom/features/bookings/lib/getCalEventResponses";
 import { getBookerBaseUrl } from "@calcom/lib/getBookerUrl/server";
 import { defaultHandler } from "@calcom/lib/server";
 import { getTimeFormatStringFromUserTimeFormat } from "@calcom/lib/timeFormat";
@@ -103,10 +102,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       let message: string | null = reminder.workflowStep.reminderBody || null;
 
       if (reminder.workflowStep.reminderBody) {
-        const { responses } = getCalEventResponses({
-          bookingFields: reminder.booking.eventType?.bookingFields ?? null,
-          booking: reminder.booking,
-        });
+        const responses = {}; // Booking responses unavailable after booking module removal
 
         const organizerOrganizationProfile = await prisma.profile.findFirst({
           where: {

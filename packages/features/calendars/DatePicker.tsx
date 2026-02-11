@@ -1,11 +1,9 @@
 import { useEffect } from "react";
-import { shallow } from "zustand/shallow";
 
 import type { IFromUser, IToUser } from "@calcom/core/getUserAvailability";
 import type { Dayjs } from "@calcom/dayjs";
 import dayjs from "@calcom/dayjs";
 import { useEmbedStyles } from "@calcom/embed-core/embed-iframe";
-import { useBookerStore } from "@calcom/features/bookings/Booker/store";
 import { getAvailableDatesInMonth } from "@calcom/features/calendars/lib/getAvailableDatesInMonth";
 import classNames from "@calcom/lib/classNames";
 import { daysInMonth, yyyymmdd } from "@calcom/lib/date-fns";
@@ -171,8 +169,6 @@ const Days = ({
     days.push(date);
   }
 
-  const [selectedDatesAndTimes] = useBookerStore((state) => [state.selectedDatesAndTimes], shallow);
-
   const isActive = (day: dayjs.Dayjs) => {
     // for selecting a range of dates
     if (Array.isArray(selected)) {
@@ -181,18 +177,6 @@ const Days = ({
 
     if (selected && yyyymmdd(selected) === yyyymmdd(day)) {
       return true;
-    }
-
-    // for selecting multiple dates for an event
-    if (
-      eventSlug &&
-      selectedDatesAndTimes &&
-      selectedDatesAndTimes[eventSlug as string] &&
-      Object.keys(selectedDatesAndTimes[eventSlug as string]).length > 0
-    ) {
-      return Object.keys(selectedDatesAndTimes[eventSlug as string]).some((date) => {
-        return yyyymmdd(dayjs(date)) === yyyymmdd(day);
-      });
     }
 
     return false;
@@ -311,8 +295,7 @@ const DatePicker = ({
   }) => {
   const browsingDate = passThroughProps.browsingDate || dayjs().startOf("month");
   const { i18n, t } = useLocale();
-  const bookingData = useBookerStore((state) => state.bookingData);
-  const isBookingInPast = bookingData ? new Date(bookingData.endTime) < new Date() : false;
+  const isBookingInPast = false;
 
   const changeMonth = (newMonth: number) => {
     if (onMonthChange) {

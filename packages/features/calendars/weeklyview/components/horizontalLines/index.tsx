@@ -1,7 +1,7 @@
 import { useId } from "react";
 
 import type dayjs from "@calcom/dayjs";
-import { useTimePreferences } from "@calcom/features/bookings/lib";
+import useMeQuery from "@calcom/trpc/react/hooks/useMeQuery";
 
 export const HorizontalLines = ({
   hours,
@@ -12,7 +12,8 @@ export const HorizontalLines = ({
   numberOfGridStopsPerCell: number;
   containerOffsetRef: React.RefObject<HTMLDivElement>;
 }) => {
-  const { timeFormat } = useTimePreferences();
+  const { data: meData } = useMeQuery();
+  const timeFormat = meData?.timeFormat === 24 ? "HH:mm" : "h:mma";
   // We need to force the minute to zero, because otherwise in ex GMT+5.5, it would show :30 minute times (but at the positino of :00)
   const finalHour = hours[hours.length - 1].add(1, "hour").minute(0).format(timeFormat);
   const id = useId();

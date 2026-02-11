@@ -1,7 +1,6 @@
 import { useSession } from "next-auth/react";
 
 import { useIsEmbed } from "@calcom/embed-core/embed-iframe";
-import UnconfirmedBookingBadge from "@calcom/features/bookings/UnconfirmedBookingBadge";
 import { KBarTrigger } from "@calcom/features/kbar/Kbar";
 import { classNames } from "@calcom/lib";
 
@@ -12,23 +11,6 @@ export const MORE_SEPARATOR_NAME = "more";
 const MEDUSA_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;
 
 const navigation: NavigationItemType[] = [
-  {
-    name: "event_types_page_title",
-    href: "/event-types",
-    icon: "link",
-  },
-  {
-    name: "bookings",
-    href: "/bookings/upcoming",
-    icon: "calendar",
-    badge: <UnconfirmedBookingBadge />,
-    isCurrent: ({ pathname }) => pathname?.startsWith("/bookings") ?? false,
-  },
-  {
-    name: "availability",
-    href: "/availability",
-    icon: "clock",
-  },
   {
     name: "Store",
     href: MEDUSA_URL ?? "#",

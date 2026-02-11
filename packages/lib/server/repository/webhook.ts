@@ -1,4 +1,3 @@
-import { compareMembership } from "@calcom/lib/event-types/getEventTypesByViewer";
 import { getBookerBaseUrl } from "@calcom/lib/getBookerUrl/server";
 import { prisma } from "@calcom/prisma";
 import type { Webhook } from "@calcom/prisma/client";
@@ -120,9 +119,7 @@ export class WebhookRepository {
           readOnly:
             membership.role ===
             (membership.team.parentId
-              ? orgMembership && compareMembership(orgMembership, membership.role)
-                ? orgMembership
-                : MembershipRole.MEMBER
+              ? orgMembership || MembershipRole.MEMBER
               : MembershipRole.MEMBER),
         },
         webhooks: membership.team.webhooks.filter(filterWebhooks),

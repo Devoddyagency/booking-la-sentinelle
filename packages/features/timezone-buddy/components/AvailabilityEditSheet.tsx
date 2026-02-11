@@ -1,8 +1,7 @@
 import { useFieldArray, useForm } from "react-hook-form";
 
 import dayjs from "@calcom/dayjs";
-import { DateOverrideInputDialog, DateOverrideList } from "@calcom/features/schedules";
-import Schedule from "@calcom/features/schedules/components/Schedule";
+
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { HttpError } from "@calcom/lib/http-error";
 import type { RouterOutputs } from "@calcom/trpc/react";
@@ -49,37 +48,11 @@ const useSettings = () => {
 };
 
 const DateOverride = ({ workingHours, disabled }: { workingHours: WorkingHours[]; disabled?: boolean }) => {
-  const { userTimeFormat } = useSettings();
-
-  const { append, replace, fields } = useFieldArray<AvailabilityFormValues, "dateOverrides">({
-    name: "dateOverrides",
-  });
-  const excludedDates = fields.map((field) => dayjs(field.ranges[0].start).utc().format("YYYY-MM-DD"));
   const { t } = useLocale();
   return (
-    <div className="">
+    <div>
       <Label>{t("date_overrides")}</Label>
-      <div className="space-y-2">
-        <DateOverrideList
-          excludedDates={excludedDates}
-          replace={replace}
-          fields={fields}
-          hour12={Boolean(userTimeFormat === 12)}
-          workingHours={workingHours}
-          userTimeFormat={userTimeFormat}
-        />
-        <DateOverrideInputDialog
-          userTimeFormat={userTimeFormat}
-          workingHours={workingHours}
-          excludedDates={excludedDates}
-          onChange={(ranges) => ranges.forEach((range) => append({ ranges: [range] }))}
-          Trigger={
-            <Button color="secondary" StartIcon="plus" data-testid="add-override" disabled={disabled}>
-              {t("add_an_override")}
-            </Button>
-          }
-        />
-      </div>
+      <p className="text-subtle text-sm">{t("date_overrides")}</p>
     </div>
   );
 };
@@ -192,12 +165,7 @@ export function AvailabilityEditSheetForm(props: Props & { data: Data; isPending
               <Label className="text-emphasis">{t("members_default_schedule")}</Label>
               {/* Remove padding from schedule without touching the component */}
               <div className="[&>*:first-child]:!p-0">
-                <Schedule
-                  control={form.control}
-                  name="schedule"
-                  weekStart={0}
-                  disabled={!hasEditPermission || !data.hasDefaultSchedule}
-                />
+                <p className="text-subtle text-sm">Schedule editing unavailable</p>
               </div>
             </div>
             <div className="mt-4">
