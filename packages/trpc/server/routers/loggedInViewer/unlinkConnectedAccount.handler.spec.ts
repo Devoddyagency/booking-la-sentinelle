@@ -44,6 +44,7 @@ async function buildMockData(
     selectedCalendars: [],
     destinationCalendar: null,
     profile: buildProfileMockData(),
+    profiles: [],
     avatar: "",
     locale: "en",
   };
