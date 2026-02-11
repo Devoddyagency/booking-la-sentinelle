@@ -7,7 +7,6 @@ import { useEffect, useRef, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
 
-import { sdkActionManager, useIsEmbed } from "@calcom/embed-core/embed-iframe";
 import classNames from "@calcom/lib/classNames";
 import useGetBrandingColours from "@calcom/lib/getBrandColours";
 import { useCompatSearchParams } from "@calcom/lib/hooks/useCompatSearchParams";
@@ -27,6 +26,11 @@ import { getFieldResponseForJsonLogic } from "../../lib/transformResponse";
 import type { NonRouterRoute, FormResponse } from "../../types/types";
 import { getServerSideProps } from "./getServerSideProps";
 import { getUrlSearchParamsToForward } from "./getUrlSearchParamsToForward";
+
+// import { sdkActionManager, useIsEmbed } from "@calcom/embed-core/embed-iframe";
+const useIsEmbed = (initialValue?: boolean) => initialValue || false;
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const sdkActionManager = { fire: () => {} };
 
 type Props = inferSSRProps<typeof getServerSideProps>;
 const useBrandColors = ({

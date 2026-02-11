@@ -1,11 +1,13 @@
 import { useSession } from "next-auth/react";
 
-import { useIsEmbed } from "@calcom/embed-core/embed-iframe";
 import { KBarTrigger } from "@calcom/features/kbar/Kbar";
 import { classNames } from "@calcom/lib";
 
 import type { NavigationItemType } from "./NavigationItem";
 import { NavigationItem, MobileNavigationItem, MobileNavigationMoreItem } from "./NavigationItem";
+
+// import { useIsEmbed } from "@calcom/embed-core/embed-iframe";
+const useIsEmbed = () => false;
 
 export const MORE_SEPARATOR_NAME = "more";
 const MEDUSA_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL;

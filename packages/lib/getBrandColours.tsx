@@ -1,6 +1,7 @@
-import { useBrandColors } from "@calcom/embed-core/embed-iframe";
-
 import { DEFAULT_DARK_BRAND_COLOR, DEFAULT_LIGHT_BRAND_COLOR } from "./constants";
+
+// import { useBrandColors } from "@calcom/embed-core/embed-iframe";
+const useBrandColors = () => ({});
 
 const BRAND_COLOR = DEFAULT_LIGHT_BRAND_COLOR;
 const DARK_BRAND_COLOR = DEFAULT_DARK_BRAND_COLOR;

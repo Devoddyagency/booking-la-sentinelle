@@ -1,9 +1,11 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 
-import { useIsEmbed } from "@calcom/embed-core/embed-iframe";
 import { APP_NAME, POWERED_BY_URL } from "@calcom/lib/constants";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
+
+// import { useIsEmbed } from "@calcom/embed-core/embed-iframe";
+const useIsEmbed = () => false;
 
 const PoweredByCal = ({ logoOnly }: { logoOnly?: boolean }) => {
   const { t } = useLocale();

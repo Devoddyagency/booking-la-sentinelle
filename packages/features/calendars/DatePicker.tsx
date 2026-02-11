@@ -3,13 +3,16 @@ import { useEffect } from "react";
 import type { IFromUser, IToUser } from "@calcom/core/getUserAvailability";
 import type { Dayjs } from "@calcom/dayjs";
 import dayjs from "@calcom/dayjs";
-import { useEmbedStyles } from "@calcom/embed-core/embed-iframe";
 import { getAvailableDatesInMonth } from "@calcom/features/calendars/lib/getAvailableDatesInMonth";
 import classNames from "@calcom/lib/classNames";
 import { daysInMonth, yyyymmdd } from "@calcom/lib/date-fns";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { weekdayNames } from "@calcom/lib/weekday";
 import { Button, SkeletonText } from "@calcom/ui";
+
+// import { useEmbedStyles } from "@calcom/embed-core/embed-iframe";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const useEmbedStyles = (val: string) => ({});
 
 export type DatePickerProps = {
   /** which day of the week to render the calendar. Usually Sunday (=0) or Monday (=1) - default: Sunday */
@@ -136,6 +139,7 @@ const Days = ({
   selected,
   month,
   nextMonthButton,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   eventSlug,
   slots,
   customClassName,

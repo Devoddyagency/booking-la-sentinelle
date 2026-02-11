@@ -1,12 +1,14 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 
-import { useIsEmbed } from "@calcom/embed-core/embed-iframe";
 import { KBarTrigger } from "@calcom/features/kbar/Kbar";
 import { useLocale } from "@calcom/lib/hooks/useLocale";
 import { Icon, Logo } from "@calcom/ui";
 
 import { UserDropdown } from "./user-dropdown/UserDropdown";
+
+// import { useIsEmbed } from "@calcom/embed-core/embed-iframe";
+const useIsEmbed = () => false;
 
 export function TopNavContainer() {
   const { status } = useSession();
