@@ -1,5 +1,5 @@
 // Stub - eventTypes get procedure removed
-import { publicProcedure } from "@calcom/trpc/server/trpc";
+import publicProcedure from "../../../../procedures/publicProcedure";
 
 export const get = publicProcedure.query(() => {
   return null;

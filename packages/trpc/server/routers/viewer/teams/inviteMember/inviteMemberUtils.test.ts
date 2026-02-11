@@ -95,6 +95,8 @@ const mockedRegularTeam: TeamWithParent = {
   smsLockState: "LOCKED",
   createdByOAuthClientId: null,
   smsLockReviewedByAdmin: false,
+  bookingLimits: null,
+  includeManagedEventsInLimits: false,
 };
 
 const mockedSubTeam = {
