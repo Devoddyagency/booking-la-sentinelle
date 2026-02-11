@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import dayjs from "@calcom/dayjs";
 import prisma from "@calcom/prisma";
-import { getDefaultScheduleId } from "@calcom/trpc/server/routers/viewer/availability/util";
 
 const travelScheduleSelect = {
   id: true,
@@ -43,7 +42,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
     });
 
-    const defaultScheduleId = await getDefaultScheduleId(user.id, prisma);
+    const defaultScheduleId = user.defaultScheduleId;
 
     if (!user.defaultScheduleId) {
       // set default schedule if not already set
