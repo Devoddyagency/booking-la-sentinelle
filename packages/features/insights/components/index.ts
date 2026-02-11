@@ -1,10 +1,12 @@
-export { AverageEventDurationChart } from "./AverageEventDurationChart";
-export { BookingKPICards } from "./BookingKPICards";
-export { BookingStatusLineChart } from "./BookingStatusLineChart";
-export { LeastBookedTeamMembersTable } from "./LeastBookedTeamMembersTable";
-export { MostBookedTeamMembersTable } from "./MostBookedTeamMembersTable";
-export { PopularEventsTable } from "./PopularEventsTable";
-export { RecentFeedbackTable } from "./RecentFeedbackTable";
-export { HighestNoShowHostTable } from "./HighestNoShowHostTable";
-export { HighestRatedMembersTable } from "./HighestRatedMembersTable";
-export { LowestRatedMembersTable } from "./LowestRatedMembersTable";
+// Stub components - booking insights removed
+export const BookingKPICards = () => null;
+export const BookingStatusLineChart = () => null;
+export const LeastBookedTeamMembersTable = () => null;
+export const MostBookedTeamMembersTable = () => null;
+export const TotalBookingUsersTable = () => null;
+export const AverageEventDurationChart = () => null;
+export const PopularEventsTable = () => null;
+export const HighestNoShowHostTable = () => null;
+export const RecentFeedbackTable = () => null;
+export const HighestRatedMembersTable = () => null;
+export const LowestRatedMembersTable = () => null;
