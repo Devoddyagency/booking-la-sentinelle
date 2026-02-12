@@ -63,7 +63,7 @@ type AppPropsWithChildren = AppProps & {
 const getEmbedNamespace = (query: ParsedUrlQuery) => {
   // Mostly embed query param should be available on server. Use that there.
   // Use the most reliable detection on client
-  return typeof window !== "undefined" ? window.getEmbedNamespace() : (query.embed as string) || null;
+  return typeof window !== "undefined" ? window.getEmbedNamespace?.() ?? null : (query.embed as string) || null;
 };
 
 // We dont need to pass nonce to the i18n provider - this was causing x2-x3 re-renders on a hard refresh
@@ -227,7 +227,7 @@ function getThemeProviderProps({
   let embedExplicitlySetThemeSuffix = "";
 
   if (typeof window !== "undefined") {
-    const embedTheme = window.getEmbedTheme();
+    const embedTheme = window.getEmbedTheme?.();
     if (embedTheme) {
       embedExplicitlySetThemeSuffix = `:${embedTheme}`;
     }
