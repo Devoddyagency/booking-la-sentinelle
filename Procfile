@@ -1,1 +1,1 @@
-web: npx turbo run @calcom/web#start
+web: yarn db-deploy && npx turbo run @calcom/web#start
