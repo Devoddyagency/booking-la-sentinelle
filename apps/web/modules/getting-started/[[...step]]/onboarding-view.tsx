@@ -17,18 +17,12 @@ import { Icon } from "@calcom/ui";
 
 import type { getServerSideProps } from "@lib/getting-started/[[...step]]/getServerSideProps";
 
-import { ConnectedCalendars } from "@components/getting-started/steps-views/ConnectCalendars";
-import { ConnectedVideoStep } from "@components/getting-started/steps-views/ConnectedVideoStep";
-import { SetupAvailability } from "@components/getting-started/steps-views/SetupAvailability";
 import UserProfile from "@components/getting-started/steps-views/UserProfile";
 import { UserSettings } from "@components/getting-started/steps-views/UserSettings";
 
 const INITIAL_STEP = "user-settings";
 const steps = [
   "user-settings",
-  "connected-calendar",
-  "connected-video",
-  "setup-availability",
   "user-profile",
 ] as const;
 
@@ -68,38 +62,10 @@ const OnboardingPage = (props: PageProps) => {
       subtitle: [`${t("we_just_need_basic_info")}`, `${t("edit_form_later_subtitle")}`],
     },
     {
-      title: `${t("connect_your_calendar")}`,
-      subtitle: [`${t("connect_your_calendar_instructions")}`],
-      skipText: `${t("connect_calendar_later")}`,
-    },
-    {
-      title: `${t("connect_your_video_app")}`,
-      subtitle: [`${t("connect_your_video_app_instructions")}`],
-      skipText: `${t("set_up_later")}`,
-    },
-    {
-      title: `${t("set_availability")}`,
-      subtitle: [
-        `${t("set_availability_getting_started_subtitle_1")}`,
-        `${t("set_availability_getting_started_subtitle_2")}`,
-      ],
-    },
-    {
       title: `${t("nearly_there")}`,
       subtitle: [`${t("nearly_there_instructions")}`],
     },
   ];
-
-  // TODO: Add this in when we have solved the ability to move to tokens accept invite and note invitedto
-  // Ability to accept other pending invites if any (low priority)
-  // if (props.hasPendingInvites) {
-  //   headers.unshift(
-  //     props.hasPendingInvites && {
-  //       title: `${t("email_no_user_invite_heading", { appName: APP_NAME })}`,
-  //       subtitle: [], // TODO: come up with some subtitle text here
-  //     }
-  //   );
-  // }
 
   const goToIndex = (index: number) => {
     const newStep = steps[index];
@@ -145,34 +111,10 @@ const OnboardingPage = (props: PageProps) => {
                 {currentStep === "user-settings" && (
                   <UserSettings nextStep={() => goToIndex(1)} hideUsername={from === "signup"} />
                 )}
-                {currentStep === "connected-calendar" && <ConnectedCalendars nextStep={() => goToIndex(2)} />}
-
-                {currentStep === "connected-video" && <ConnectedVideoStep nextStep={() => goToIndex(3)} />}
-
-                {currentStep === "setup-availability" && (
-                  <SetupAvailability
-                    nextStep={() => goToIndex(4)}
-                    defaultScheduleId={user.defaultScheduleId}
-                  />
-                )}
                 {currentStep === "user-profile" && <UserProfile />}
               </Suspense>
             </StepCard>
 
-            {headers[currentStepIndex]?.skipText && (
-              <div className="flex w-full flex-row justify-center">
-                <Button
-                  color="minimal"
-                  data-testid="skip-step"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    goToIndex(currentStepIndex + 1);
-                  }}
-                  className="mt-8 cursor-pointer px-4 py-2 font-sans text-sm font-medium">
-                  {headers[currentStepIndex]?.skipText}
-                </Button>
-              </div>
-            )}
           </div>
           <div className="flex w-full flex-row justify-center">
             <Button
@@ -190,3 +132,4 @@ const OnboardingPage = (props: PageProps) => {
 };
 
 export default OnboardingPage;
+

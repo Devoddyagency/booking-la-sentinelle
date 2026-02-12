@@ -104,12 +104,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           },
           emailVerified: new Date(Date.now()),
           identityProvider: IdentityProvider.CAL,
+          completedOnboarding: true,
         },
         create: {
           username: correctedUsername,
           email: userEmail,
           password: { create: { hash: hashedPassword } },
           identityProvider: IdentityProvider.CAL,
+          completedOnboarding: true,
         },
       });
 
@@ -162,12 +164,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
         emailVerified: new Date(Date.now()),
         identityProvider: IdentityProvider.CAL,
+        completedOnboarding: true,
       },
       create: {
         username: correctedUsername,
         email: userEmail,
         password: { create: { hash: hashedPassword } },
         identityProvider: IdentityProvider.CAL,
+        completedOnboarding: true,
       },
     });
 

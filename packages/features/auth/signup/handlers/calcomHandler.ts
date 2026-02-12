@@ -161,9 +161,10 @@ async function handler(req: RequestWithUsernameStatus, res: NextApiResponse) {
         },
         create: {
           username,
-          email,
+          email: _email,
           identityProvider: IdentityProvider.CAL,
           password: { create: { hash: hashedPassword } },
+          completedOnboarding: true,
         },
       });
       // Wrapping in a transaction as if one fails we want to rollback the whole thing to preventa any data inconsistencies
@@ -200,6 +201,7 @@ async function handler(req: RequestWithUsernameStatus, res: NextApiResponse) {
           stripeCustomerId: customer.id,
           checkoutSessionId,
         },
+        completedOnboarding: true,
       },
     });
     if (process.env.AVATARAPI_USERNAME && process.env.AVATARAPI_PASSWORD) {
