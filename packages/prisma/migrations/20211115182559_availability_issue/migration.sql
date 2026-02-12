@@ -2,8 +2,8 @@
 insert into "Availability" ("userId", "startTime", "endTime", "days")
 select
   id as "userId", 
-  CAST(CONCAT(CAST(("startTime") AS text), ' minute')::interval AS time) as "startTime",
-  CAST(CONCAT(CAST(("endTime") AS text), ' minute')::interval AS time) as "endTime",
+  to_timestamp(0) + (CAST(("startTime") AS text) || ' minutes')::interval as "startTime",
+  to_timestamp(0) + (CAST(("endTime") AS text) || ' minutes')::interval as "endTime",
   ARRAY [0,1,2,3,4,5,6]
 from
   (
