@@ -13,6 +13,7 @@ import { apiKeysRouter } from "./apiKeys/_router";
 import { appsRouter } from "./apps/_router";
 import { attributesRouter } from "./attributes/_router";
 import { authRouter } from "./auth/_router";
+import { availabilityRouter } from "./availability/_router";
 import { deploymentSetupRouter } from "./deploymentSetup/_router";
 import { dsyncRouter } from "./dsync/_router";
 import { googleWorkspaceRouter } from "./googleWorkspace/_router";
@@ -51,5 +52,6 @@ export const viewerRouter = mergeRouters(
     googleWorkspace: googleWorkspaceRouter,
     admin: adminRouter,
     attributes: attributesRouter,
+    availability: availabilityRouter,
   })
 );
